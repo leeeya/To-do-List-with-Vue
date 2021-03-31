@@ -1,7 +1,7 @@
 <template>
-  <div class='main'>
-    <todo-form v-on:addTodo='addTodo'></todo-form>
-    <todo-list></todo-list>
+  <div class="main">
+    <todo-form v-on:addTodo="addTodo"></todo-form>
+    <todo-list v-bind:todoList="todoList"></todo-list>
   </div>
 </template>
 
@@ -11,9 +11,20 @@ import TodoList from '@/components/TodoList';
 
 export default {
   name: 'MainPage',
+  data() {
+    return {
+      todoList: [],
+    };
+  },
   components: {
     'todo-form': TodoForm,
     'todo-list': TodoList,
+  },
+  created() {
+    const todoList = JSON.parse(localStorage.getItem('todo'));
+
+    if (!todoList) return;
+    this.todoList = todoList;
   },
   methods: {
     addTodo(todo) {
@@ -26,6 +37,7 @@ export default {
         todos = JSON.stringify([...prevTodoList, todo]);
       }
       localStorage.setItem('todo', todos);
+      this.todoList.push(todo);
     },
   },
 };

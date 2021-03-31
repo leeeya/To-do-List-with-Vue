@@ -1,8 +1,7 @@
-/* eslint-disable no-alert */
 <template>
   <form>
-    <input type='text' v-model='todo'/>
-    <button type='submit' v-on:click="handleSubmitButton">add todo</button>
+    <input type="text" v-model="todo.todo" />
+    <button type="submit" v-on:click="handleSubmitButton">add todo</button>
   </form>
 </template>
 
@@ -11,19 +10,21 @@ export default {
   name: 'TodoForm',
   data() {
     return {
-      todo: '',
+      todo: {
+        id: Date.now(),
+        todo: '',
+      },
     };
   },
   methods: {
     handleSubmitButton() {
-      if (!this.todo) {
+      if (!this.todo.todo) {
         // eslint-disable-next-line no-alert
-        alert('할 일을 입력해주세요');
+        confirm('할 일을 입력해주세요');
         return;
       }
       this.$emit('addTodo', this.todo);
-      // eslint-disable-next-line no-console
-      this.todo = '';
+      this.todo.todo = '';
     },
   },
 };
