@@ -2,9 +2,12 @@
   <section>
     <h1>Todo List</h1>
     <ul>
-      <todo-item v-for="(todo, index) in todoList" v-bind:key="index">
-        {{ todo }}
-      </todo-item>
+      <todo-item
+        v-for="todo in todoList"
+        :key="todo.id"
+        :todo="todo"
+        :deleteTodo="deleteTodo"
+      />
     </ul>
   </section>
 </template>
@@ -18,10 +21,12 @@ export default {
   },
   props: {
     todoList: {
-      type: Object,
+      type: Array,
       required: true,
     },
+    deleteTodo: Function,
   },
+  methods: {},
 };
 </script>
 

@@ -1,7 +1,7 @@
 <template>
   <div class="main">
     <todo-form v-on:addTodo="addTodo"></todo-form>
-    <todo-list v-bind:todoList="todoList"></todo-list>
+    <todo-list v-bind:todoList="todoList" :deleteTodo="deleteTodo"></todo-list>
   </div>
 </template>
 
@@ -29,15 +29,24 @@ export default {
   methods: {
     addTodo(todo) {
       const prevTodoList = JSON.parse(localStorage.getItem('todo'));
+      const todoItem = {
+        id: Date.now(),
+        todo,
+      };
       let todos = [];
-
       if (!prevTodoList) {
-        todos = JSON.stringify([todo]);
+        todos = JSON.stringify([todoItem]);
       } else {
-        todos = JSON.stringify([...prevTodoList, todo]);
+        todos = JSON.stringify([...prevTodoList, todoItem]);
       }
       localStorage.setItem('todo', todos);
-      this.todoList.push(todo);
+      this.todoList.push(todoItem);
+    },
+    deleteTodo(id) {
+      const currentTodoList = this.todoList.filter(todo => todo.id !== id);
+
+      this.todoList = currentTodoList;
+      localStorage.setItem('todo', JSON.stringify(currentTodoList));
     },
   },
 };

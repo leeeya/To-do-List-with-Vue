@@ -1,8 +1,9 @@
-/* eslint-disable vue/valid-template-root */
 <template>
   <li>
-    <div class="todo-item">{{ todo }}</div>
-    <button class="delete-todo" v-on="handleDeleteButton">delete</button>
+    <div class="todo-item">{{ todo.todo }}</div>
+    <button class="delete-todo" v-on:click="handleDeleteButton">
+      delete
+    </button>
   </li>
 </template>
 
@@ -11,13 +12,14 @@ export default {
   name: 'TodoItem',
   props: {
     todo: {
-      type: String,
+      type: Object,
       required: true,
     },
+    deleteTodo: Function,
   },
   methods: {
     handleDeleteButton() {
-      this.$emit('deleteTodo', this.todoItem.id);
+      this.deleteTodo(this.todo.id);
     },
   },
 };
